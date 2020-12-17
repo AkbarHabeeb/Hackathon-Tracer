@@ -1,0 +1,257 @@
+.table {
+    margin-bottom: 0rem;
+}
+
+thead {
+    text-align: center;
+}
+
+#mainForm {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: -10px;
+}
+
+Nav {
+    background-color: white
+}
+
+.card {
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+div {
+    display: block;
+}
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.card .header {
+    padding: 15px 15px 0;
+}
+
+.card .title {
+    margin: 0;
+    color: #333333;
+    font-weight: 300;
+}
+
+h4, .h4 {
+    font-size: 22px;
+    line-height: 30px;
+}
+
+.card .category, .card label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #9A9A9A;
+    margin-bottom: 0px;
+}
+
+.card .content {
+    padding: 15px 15px 15px 15px;
+}
+
+.footer {
+    background-color: #FFFFFF;
+    line-height: 20px;
+}
+
+.card .footer {
+    padding: 0;
+    background-color: transparent;
+    line-height: 15px;
+}
+
+.card .footer div {
+    display: inline-block;
+}
+
+.card .footer .legend {
+    padding: 5px 0;
+}
+
+.card .footer div {
+    display: inline-block;
+}
+
+.card .stats {
+    color: #a9a9a9;
+}
+
+.content {
+    padding: 30px 15px;
+    /* min-height: calc(100% - 123px); */
+}
+
+.row-indent {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.main-panel {
+    background: rgba(203, 203, 210, 0.15);
+    position: relative;
+    float: right;
+    width: 100%;
+    /* width: calc(100% - 160px); */
+}
+
+.wrapper {
+    position: relative;
+    top: 0;
+    height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 160px;
+    display: block;
+    z-index: 1;
+    color: #fff;
+    font-weight: 200;
+    background-size: cover;
+    background-position: center center;
+    background-color: #3385ff;
+}
+
+.logo {
+    text-align: center;
+    font-size: xx-large;
+}
+
+.nav>li {
+    position: relative;
+    display: block;
+}
+
+.sidebar .logo, body > .navbar-collapse .logo {
+    padding: 10px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar, .main-panel {
+    transition-property: top,bottom;
+    transition-duration: .2s,.2s;
+    transition-timing-function: linear,linear;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.sidebar .nav li.active > a {
+    color: #FFFFFF;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.23);
+}
+
+.sidebar .nav li > a {
+    color: rgb(22, 7, 7);
+    margin: 5px 15px;
+    opacity: .86;
+    border-radius: 4px;
+}
+
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+.sidebar .sidebar-wrapper {
+    position: relative;
+    height: calc(100vh - 75px);
+    overflow: auto;
+    width: 160px;
+    z-index: 4;
+    padding-bottom: 30px;
+}
+
+.col-7 {
+    flex: 0 0 58.333333%;
+    max-width: 58.333333%;
+}
+
+.col-5 {
+    flex: 0 0 41.666667%;
+    max-width: 41.666667%;
+}
+
+.text-center {
+    text-align: center!important;
+}
+
+.card-stats .icon-big {
+    font-size: 3em;
+    min-height: 64px;
+}
+
+.card-stats .numbers {
+    font-size: 1.2em;
+    text-align: right;
+}
+
+p {
+    font-size: 16px;
+}
+
+.u_form {
+    padding-top: 5px;
+}
+
+.u_button {
+    margin-left: -20px;
+}
