@@ -2,121 +2,36 @@ import React, { Component } from "react";
 import CardCompact from '../Components/cardCompact';
 import { Row, Col, Form } from 'react-bootstrap'
 import { TextField } from '@material-ui/core';
-import Button from '../Components/button';
-import DataGrid from '../Components/datagrid';
+// import Button from '../Components/button';
+import DataTable from '../Components/datagrid';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4plugins_timeline from "@amcharts/amcharts4/plugins/timeline";
 import * as am4plugins_bullets from "@amcharts/amcharts4/plugins/bullets";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import axios from 'axios';
 
-// am4core.useTheme(am4themes_animated);
+
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+import get from 'lodash/get';
 import '../style.css';
+
 class Home extends Component {
-  // componentDidMount() {
-  //   let chart = am4core.create("chartdiv", am4charts.XYChart);
-  //   am4core.useTheme(am4themes_animated);
+  constructor() {
+    super()
+    this.state = {
+      poId: "",
+      orderDate: "",
+      dataRows: []
+    }
 
-  //   chart.data = [{
-  //     "x": "1",
-  //     "y": 3,
-  //     "text": "[bold]2018 Q1[/]\nThere seems to be some furry animal living in the neighborhood.",
-  //     "center": "bottom"
-  //   }, {
-  //     "x": "2",
-  //     "y": 3,
-  //     "text": "[bold]2018 Q2[/]\nWe're now mostly certain it's a fox.",
-  //     "center": "bottom"
-  //   }, {
-  //     "x": "3",
-  //     "y": 3,
-  //     "text": "[bold]2018 Q3[/]\nOur dog does not seem to mind the newcomer at all.",
-  //     "center": "bottom"
-  //   }, {
-  //     "x": "3",
-  //     "y": 2,
-  //     "text": "[bold]2018 Q4[/]\nThe quick brown fox jumps over the lazy dog.",
-  //     "center": "top"
-  //   }, {
-  //     "x": "2",
-  //     "y": 2,
-  //     "text": "[bold]2019 Q1[/]\nPoor feline is still trying to recover from what happened.",
-  //     "center": "bottom"
-  //   }, {
-  //     "x": "1",
-  //     "y": 2,
-  //     "text": "[bold]2019 Q2[/]\nNew security measures are put in place to prevent further accidents.",
-  //     "center": "bottom"
-  //   }, {
-  //     "x": "1",
-  //     "y": 1,
-  //     "text": "[bold]2019 Q3[/]\nNo successful fox-jump attacks reported.",
-  //     "center": "top"
-  //   }, {
-  //     "x": "2",
-  //     "y": 1,
-  //     "text": "[bold]2019 Q4[/]\nThe yard is now considered fox-free.",
-  //     "center": "top"
-  //   }];
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.parseResponse = this.parseResponse.bind(this)
+  }
 
-  //   var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-  //   xAxis.dataFields.category = "x";
-  //   xAxis.renderer.grid.template.disabled = true;
-  //   xAxis.renderer.labels.template.disabled = true;
-  //   xAxis.tooltip.disabled = true;
-  //   xAxis.data = [{
-  //     "x": "1"
-  //   }, {
-  //     "x": "2"
-  //   }, {
-  //     "x": "3"
-  //   }];
-
-  //   var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
-  //   yAxis.min = 0;
-  //   yAxis.max = 4;
-  //   yAxis.strictMinMax = true;
-  //   yAxis.renderer.grid.template.disabled = true;
-  //   yAxis.renderer.labels.template.disabled = true;
-  //   yAxis.renderer.baseGrid.disabled = true;
-  //   yAxis.tooltip.disabled = true;
-
-
-  //   // Create series
-  //   var series = chart.series.push(new am4charts.LineSeries());
-  //   series.dataFields.categoryX = "x";
-  //   series.dataFields.valueY = "y";
-  //   series.strokeWidth = 4;
-  //   series.sequencedInterpolation = true;
-  //   series.tensionX = 0.7;
-
-  //   var bullet = series.bullets.push(new am4charts.CircleBullet());
-  //   bullet.circle.radius = 10;
-
-  //   bullet.setStateOnChildren = true;
-  //   bullet.states.create("hover");
-  //   bullet.circle.states.create("hover").properties.radius = 15;
-
-  //   var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-  //   labelBullet.label.text = "{text}";
-  //   labelBullet.label.maxWidth = 250;
-  //   labelBullet.label.wrap = true;
-  //   labelBullet.label.truncate = false;
-  //   labelBullet.label.textAlign = "middle";
-  //   labelBullet.label.padding(20, 20, 20, 20)
-  //   labelBullet.label.fill = am4core.color("#999");
-  //   labelBullet.label.background.fill = series.fill;
-  //   labelBullet.label.background.fillOpacity = 0.1;
-
-  //   labelBullet.setStateOnChildren = true;
-  //   labelBullet.states.create("hover").properties.scale = 1.2;
-  //   labelBullet.label.states.create("hover").properties.fill = am4core.color("#000");
-
-  //   labelBullet.label.propertyFields.verticalCenter = "center";
-  //   // ... chart code goes here ...
-
-  //   this.chart = chart;
-  // }
   componentDidMount() {
     am4core.ready(function () {
 
@@ -190,119 +105,119 @@ class Home extends Component {
           "icon": breakfast,
           "text": "Have breakfast"
         },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-10 07:30",
-        //   "end": "2019-01-10 08:00",
-        //   "color": colorSet.getIndex(15),
-        //   "icon": car,
-        //   "text": "Drive to work"
-        // },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-10 08:00",
-        //   "end": "2019-01-10 17:00",
-        //   "color": colorSet.getIndex(15),
-        //   "icon": work,
-        //   "text": "Work"
-        // },
-        // {
-        //   "category": "e",
-        //   "start": "2019-01-10 10:00",
-        //   "end": "2019-01-10 10:15",
-        //   "color": colorSet.getIndex(15),
-        //   "icon": coffee,
-        //   "text": "Coffee"
-        // },
-        // {
-        //   "category": "e",
-        //   "start": "2019-01-10 12:00",
-        //   "end": "2019-01-10 13:00",
-        //   "color": colorSet.getIndex(15),
-        //   "icon": dinner,
-        //   "text": "Dinner"
-        // },
-        // {
-        //   "category": "e",
-        //   "start": "2019-01-10 14:00",
-        //   "end": "2019-01-10 14:15",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": coffee,
-        //   "text": "Coffee"
-        // },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-10 17:00",
-        //   "end": "2019-01-10 18:00",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": car,
-        //   "text": "Drive home"
-        // },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-10 18:00",
-        //   "end": "2019-01-10 21:30",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": home,
-        //   "text": "Home!"
-        // },
-        // {
-        //   "category": "e",
-        //   "start": "2019-01-10 19:30",
-        //   "end": "2019-01-10 20:30",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": book,
-        //   "text": "Read a bit"
-        // },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-10 21:30",
-        //   "end": "2019-01-10 22:00",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": beer,
-        //   "text": "Have a beer"
-        // },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-10 22:00",
-        //   "end": "2019-01-10 22:15",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": beer,
-        //   "text": "Have another beer"
-        // },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-10 22:15",
-        //   "end": "2019-01-10 23:00",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": dance,
-        //   "text": "Dance!"
-        // },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-10 23:00",
-        //   "end": "2019-01-11 00:00",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": drink,
-        //   "text": "Martini!"
-        // },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-11 00:00",
-        //   "end": "2019-01-11 01:00",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": drunk,
-        //   "text": "Damn..."
-        // },
-        // {
-        //   "category": "",
-        //   "start": "2019-01-11 01:00",
-        //   "end": "2019-01-11 01:00",
-        //   "color": colorSet.getIndex(4),
-        //   "icon": bed,
-        //   "text": "Bye bye"
-        // }
-      ];
+          // {
+          //   "category": "",
+          //   "start": "2019-01-10 07:30",
+          //   "end": "2019-01-10 08:00",
+          //   "color": colorSet.getIndex(15),
+          //   "icon": car,
+          //   "text": "Drive to work"
+          // },
+          // {
+          //   "category": "",
+          //   "start": "2019-01-10 08:00",
+          //   "end": "2019-01-10 17:00",
+          //   "color": colorSet.getIndex(15),
+          //   "icon": work,
+          //   "text": "Work"
+          // },
+          // {
+          //   "category": "e",
+          //   "start": "2019-01-10 10:00",
+          //   "end": "2019-01-10 10:15",
+          //   "color": colorSet.getIndex(15),
+          //   "icon": coffee,
+          //   "text": "Coffee"
+          // },
+          // {
+          //   "category": "e",
+          //   "start": "2019-01-10 12:00",
+          //   "end": "2019-01-10 13:00",
+          //   "color": colorSet.getIndex(15),
+          //   "icon": dinner,
+          //   "text": "Dinner"
+          // },
+          // {
+          //   "category": "e",
+          //   "start": "2019-01-10 14:00",
+          //   "end": "2019-01-10 14:15",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": coffee,
+          //   "text": "Coffee"
+          // },
+          // {
+          //   "category": "",
+          //   "start": "2019-01-10 17:00",
+          //   "end": "2019-01-10 18:00",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": car,
+          //   "text": "Drive home"
+          // },
+          // {
+          //   "category": "",
+          //   "start": "2019-01-10 18:00",
+          //   "end": "2019-01-10 21:30",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": home,
+          //   "text": "Home!"
+          // },
+          // {
+          //   "category": "e",
+          //   "start": "2019-01-10 19:30",
+          //   "end": "2019-01-10 20:30",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": book,
+          //   "text": "Read a bit"
+          // },
+          // {
+          //   "category": "",
+          //   "start": "2019-01-10 21:30",
+          //   "end": "2019-01-10 22:00",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": beer,
+          //   "text": "Have a beer"
+          // },
+          // {
+          //   "category": "",
+          //   "start": "2019-01-10 22:00",
+          //   "end": "2019-01-10 22:15",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": beer,
+          //   "text": "Have another beer"
+          // },
+          // {
+          //   "category": "",
+          //   "start": "2019-01-10 22:15",
+          //   "end": "2019-01-10 23:00",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": dance,
+          //   "text": "Dance!"
+          // },
+          // {
+          //   "category": "",
+          //   "start": "2019-01-10 23:00",
+          //   "end": "2019-01-11 00:00",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": drink,
+          //   "text": "Martini!"
+          // },
+          // {
+          //   "category": "",
+          //   "start": "2019-01-11 00:00",
+          //   "end": "2019-01-11 01:00",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": drunk,
+          //   "text": "Damn..."
+          // },
+          // {
+          //   "category": "",
+          //   "start": "2019-01-11 01:00",
+          //   "end": "2019-01-11 01:00",
+          //   "color": colorSet.getIndex(4),
+          //   "icon": bed,
+          //   "text": "Bye bye"
+          // }
+        ];
 
         chart.fontSize = 10;
         chart.tooltipContainer.fontSize = 10;
@@ -524,7 +439,53 @@ class Home extends Component {
     }
   }
 
+  handleChange(event) {
+    this.setState({
+      poId: event.target.value
+    })
+    console.log(this.state.poId);
+  }
+
+  parseResponse(response) {
+    console.log("Ak", response)
+    let poId = response.data.po_id
+    let lineItems = response.data.line_items
+    lineItems.forEach(async element => {
+      let tempLine = { "id": element.line_item_id, "sku": element.sku }
+      await this.setState({
+        dataRows: [...this.state.dataRows, tempLine]
+      })
+    });
+    console.log(poId, this.state.dataRows);
+    this.forceUpdate();
+  }
+
+  async handleSubmit(event) {
+    let url = 'http://localhost:5010/getOrder/?po_id=' + this.state.poId
+    console.log(url, "-URL")
+    await axios({
+      url: url,
+      method: 'GET',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+      }
+    })
+      .then(response => { this.parseResponse(response) })
+      .catch(err => { console.log(err) })
+  }
+
   render() {
+    // const useStyles = makeStyles((theme) => ({
+    //   root: {
+    //     '& > *': {
+    //       margin: theme.spacing(1),
+    //     },
+    //   },
+    // }));
+    // const classes = useStyles();
+
     let container = (
       <Row>
         <Col>
@@ -586,15 +547,19 @@ class Home extends Component {
                       label="Search Order"
                       placeholder="We trace order for you"
                       variant="outlined"
-                      value=''
+                      // value=''
                       fullWidth
                       required
                       size="small"
-                    // onChange={e => this.handleChange(e, 0)}
+                      onChange={event => this.handleChange(event)}
                     />
                   </Col>
                   <Col className="u_button">
-                    <Button />
+                    {/* <div className={classes.root}> */}
+                    <Button variant="contained" color="primary" fullWidth onClick={event => this.handleSubmit(event)} >
+                      Search
+                      </Button>
+                    {/* </div> */}
                   </Col>
                 </Row>
               </Form>
@@ -618,7 +583,7 @@ class Home extends Component {
         {/* {container} */}
         <br />
         <br />
-        <DataGrid />
+        <DataTable rows={this.state.dataRows} />
       </div>
     )
   }
